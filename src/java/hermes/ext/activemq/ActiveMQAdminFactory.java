@@ -22,12 +22,11 @@ import hermes.HermesAdmin;
 import hermes.HermesAdminFactory;
 import hermes.HermesException;
 
-import java.net.MalformedURLException;
-
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import javax.management.remote.JMXServiceURL;
 import javax.naming.NamingException;
+import java.net.MalformedURLException;
 
 /**
  * @author colincrist@hermesjms.com
@@ -37,74 +36,73 @@ import javax.naming.NamingException;
 
 public class ActiveMQAdminFactory implements HermesAdminFactory
 {
-   private static String DEFAULT_URL = "service:jmx:rmi:///jndi/rmi://localhost:1616/jmxrmi";
+    private static String DEFAULT_URL = "service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi";
+    private String serviceURL;
+    private String brokerName = "localhost" ;
+    private String username ;
+    private String password ;
 
-   private String serviceURL;
-   private String brokerName = "localhost" ;
-   private String username ;
-   private String password ;
-   
-   public HermesAdmin createSession(Hermes hermes, ConnectionFactory connectionFactory) throws JMSException, NamingException
-   {
-      try
-      {
-         return createHermesAdmin(hermes);
-      }
-      catch (MalformedURLException e)
-      {
-         throw new HermesException(e);
-      }
-   }
+    public HermesAdmin createSession(Hermes hermes, ConnectionFactory connectionFactory) throws JMSException, NamingException
+    {
+        try
+        {
+            return createHermesAdmin(hermes);
+        }
+        catch (MalformedURLException e)
+        {
+            throw new HermesException(e);
+        }
+    }
 
-   private ActiveMQAdmin createHermesAdmin(Hermes hermes) throws MalformedURLException
-   {
-      if (serviceURL == null)
-      {
-         return new ActiveMQAdmin(this, hermes, brokerName, new JMXServiceURL(DEFAULT_URL));
-      }
-      else
-      {
-         return new ActiveMQAdmin(this, hermes, brokerName, new JMXServiceURL(serviceURL));
-      }
-   }
+    private ActiveMQAdmin createHermesAdmin(Hermes hermes) throws MalformedURLException
+    {
+        if (serviceURL == null)
+        {
+            return new ActiveMQAdmin(this, hermes, brokerName, new JMXServiceURL(DEFAULT_URL));
+        }
+        else
+        {
+            return new ActiveMQAdmin(this, hermes, brokerName, new JMXServiceURL(serviceURL));
+        }
+    }
 
-   public String getBrokerName()
-   {
-      return brokerName;
-   }
+    public String getBrokerName()
+    {
+        return brokerName;
+    }
 
-   public void setBrokerName(String brokerName)
-   {
-      this.brokerName = brokerName;
-   }
+    public void setBrokerName(String brokerName)
+    {
+        this.brokerName = brokerName;
+    }
 
-   public String getServiceURL()
-   {
-      return serviceURL;
-   }
+    public String getServiceURL()
+    {
+        return serviceURL;
+    }
 
-   public void setServiceURL(String serviceURL)
-   {
-      this.serviceURL = serviceURL;
-   }
+    public void setServiceURL(String serviceURL)
+    {
+        this.serviceURL = serviceURL;
+    }
 
-   public String getPassword()
-   {
-      return password;
-   }
+    public String getPassword()
+    {
+        return password;
+    }
 
-   public void setPassword(String password)
-   {
-      this.password = password;
-   }
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
 
-   public String getUsername()
-   {
-      return username;
-   }
+    public String getUsername()
+    {
+        return username;
+    }
 
-   public void setUsername(String username)
-   {
-      this.username = username;
-   }
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
 }

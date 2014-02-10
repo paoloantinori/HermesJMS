@@ -3,7 +3,7 @@
 
 
 	<!-- Dependent 3rd party libraries are defined in the build.properties file -->
-
+    <property environment="env"/>
 	<property file="build.properties" />
 
 	<property name="installer.jar" value="hermes-installer-1.15.jar" />
@@ -35,8 +35,8 @@
 	<property name="classes.ext.openjms" value="${build.classes}/classes-ext/openjms" />
 	<property name="classes.ext.fiorano" value="${build.classes}/classes-ext/fiorano" />
 	<property name="classes.ext.ems" value="${build.classes}/classes-ext/ems" />
-	<property name="classes.ext.activemq" value="${build.classes}/classes-ext/activemq" />
-	<property name="classes.ext.seebeyond" value="${build.classes}/classes-ext/seebeyond" />
+    <property name="classes.ext.activemq" value="${build.classes}/classes-ext/activemq" />
+    <property name="classes.ext.seebeyond" value="${build.classes}/classes-ext/seebeyond" />
 	<property name="classes.webstart" value="${build.classes}/webstart" />
 	<property name="classes.ext.oracleaq" value="${build.classes}/classes-ext/oracle-aq" />
 	<property name="classes.ext.imq" value="${build.classes}/classes-ext/imq" />
@@ -117,8 +117,8 @@
 		<mkdir dir="${classes.ext.ems}" />
 		<mkdir dir="${classes.ext.sqs}" />
 		<mkdir dir="${classes.ext.sonic}" />
-		<mkdir dir="${classes.ext.activemq}" />
-		<mkdir dir="${classes.ext.seebeyond}" />
+        <mkdir dir="${classes.ext.activemq}" />
+        <mkdir dir="${classes.ext.seebeyond}" />
 		<mkdir dir="${classes.webstart}" />
 		<mkdir dir="${classes.ext.oracleaq}" />
 		<mkdir dir="${classes.ext.imq}" />
@@ -143,14 +143,15 @@
 				<include name="*.jar" />
 			</fileset>
 
-			<!--
+			
 			<fileset dir="${ant.lib}">
-				<include name="ant.jar" />
+				<include name="*.jar" />
 			</fileset>
--->
+
 			<fileset dir="${jamsel.lib}">
 				<include name="selector-1.1.jar" />
 			</fileset>
+            <pathelement location="${env.JAVA_HOME}/lib/tools.jar"/>
 		</path>
 
 		<!-- Base classpath for all plugins-->
@@ -370,13 +371,13 @@
 	</target>
 
 	<target name="compile-main" depends="init">
-		<xjc schema="${config.schema}" destdir="${src.java}" package="${config.package}" removeOldOutput="yes">
-			<produces dir="${src.java}/hermes/config" includes="* impl/**" />
-		</xjc>
+		<!--<xjc schema="${config.schema}" destdir="${src.java}" package="${config.package}" removeOldOutput="yes">-->
+			<!--<produces dir="${src.java}/hermes/config" includes="* impl/**" />-->
+		<!--</xjc>-->
 
-		<xjc schema="${jms2xml.schema}" destdir="${src.java}" package="${jms2xml.package}" removeOldOutput="yes">
-			<produces dir="${src.java}/hermes/xml" includes="**/*.java" />
-		</xjc>
+		<!--<xjc schema="${jms2xml.schema}" destdir="${src.java}" package="${jms2xml.package}" removeOldOutput="yes">-->
+			<!--<produces dir="${src.java}/hermes/xml" includes="**/*.java" />-->
+		<!--</xjc>-->
 
 		<javac target="1.5" destdir="${classes}" deprecation="on" debug="true">
 			<src path="${src.java}" />
@@ -456,7 +457,6 @@
 			<classpath refid="activemq.classpath" />
 		</javac>
 	</target>
-
 
 	<target name="compile-sqs" depends="jar" if="sqs.present">
 		<javac target="1.5" sourcepath="" srcdir="${src.java}" destdir="${classes.ext.sqs}" deprecation="on" debug="true">
@@ -559,9 +559,9 @@
 			<fileset dir="${classes.ext.seebeyond}" />
 		</jar>
 
-		<jar jarfile="${lib.ext}/hermes-activemq.jar">
-			<fileset dir="${classes.ext.activemq}" />
-		</jar>
+        <jar jarfile="${lib.ext}/hermes-activemq.jar">
+            <fileset dir="${classes.ext.activemq}" />
+        </jar>
 
 		<jar jarfile="${lib.ext}/hermes-sonicmq.jar">
 			<fileset dir="${classes.ext.sonic}" />
